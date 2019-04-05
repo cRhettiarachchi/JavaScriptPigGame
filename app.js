@@ -10,18 +10,16 @@ GAME RULES:
 */
 
 // declare the variable for the program
-var roundScore, playerScore, activePlayer;
+var roundScore, playerScore, activePlayer, gameStatus;
 
-roundScore = 0;
-playerScore = [0, 0];
-activePlayer = 0;
+ gameStatus = true;
 
-// basics of the games
-document.querySelector('.dice').style.display = 'none';
-for(var i = 0; i < 2; i++){
-    document.querySelector('#score-' + i).textContent = '0';
-    document.querySelector('#current-' + i).textContent = '0';
-}
+ roundScore = 0;
+ playerScore = [0, 0];
+ activePlayer = 0; // this is necessary because always the player needs to be the player one
+
+    init();
+
 
 // Roll the dice functionalities 
 
@@ -55,6 +53,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
         document.querySelector('#name-' + activePlayer).textContent = "Winner";
+        gameStatus = false;
     }
     else{
         changeCurrent();
@@ -74,23 +73,19 @@ function changeCurrent(){
 // new game functionality 
 
 document.querySelector('.btn-new').addEventListener('click', function(){
-    roundScore = 0;
-    playerScore = [0,0];
-    document.querySelector('.dice').style.display = 'none';
-
-    for(var i = 0; i < 2; i++){
-        document.querySelector('#score-' + i).textContent = 0;
-    }
-    document.querySelector('#current-' + activePlayer).textContent = 0;
-
-    
+    init();
 })
 
+function init(){
 
-
-
-
-
-
-
+// basics of the games
+ document.querySelector('.dice').style.display = 'none';
+ for(var i = 0; i < 2; i++){
+    document.querySelector('#score-' + i).textContent = '0';
+    document.querySelector('#current-' + i).textContent = '0';
+    document.querySelector('.player-' + i + '-panel').classList.remove('active');
+    document.querySelector('.player-' + i + '-panel').classList.remove('winner');
+ }
+    document.querySelector('.player-0-panel').classList.add('active');
+}
 
