@@ -14,12 +14,8 @@ var roundScore, playerScore, activePlayer, gameStatus;
 
  gameStatus = true;
 
- roundScore = 0;
- playerScore = [0, 0];
- activePlayer = 0; // this is necessary because always the player needs to be the player one
-
     init();
-
+ 
 
 // Roll the dice functionalities 
 
@@ -77,6 +73,9 @@ document.querySelector('.btn-new').addEventListener('click', function(){
 })
 
 function init(){
+    roundScore = 0;
+    playerScore = [0, 0];
+    activePlayer = 0; // this is necessary because always the player needs to be the player one
 
 // basics of the games
  document.querySelector('.dice').style.display = 'none';
