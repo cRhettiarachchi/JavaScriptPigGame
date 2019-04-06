@@ -10,43 +10,41 @@ GAME RULES:
 */
 
 // declare the variable for the program
-var roundScore, playerScore, activePlayer;
+var roundScore, playerScore, activePlayer, gameStatus;
 
-roundScore = 0;
-playerScore = [0, 0];
-activePlayer = 0;
-
-// basics of the games
-document.querySelector('.dice').style.display = 'none';
-for(var i = 0; i < 2; i++){
-    document.querySelector('#score-' + i).textContent = '0';
-    document.querySelector('#current-' + i).textContent = '0';
-}
+    init();
+ 
 
 // Roll the dice functionalities 
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
-    // generate a random number 
-    var dice = Math.floor(Math.random() * 6) + 1;
 
-    // display the concurrent dice 
+    if(gameStatus){ // to stop working after one player wins
+        // generate a random number 
+        var dice = Math.floor(Math.random() * 6) + 1;
 
-    document.querySelector('.dice').style.display = "inline";
-    document.querySelector('.dice').src = "dice-" + dice + '.png';
+        // display the concurrent dice 
 
-    if( dice !== 1 ){
-        roundScore += dice;
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        document.querySelector('.dice').style.display = "inline";
+        document.querySelector('.dice').src = "dice-" + dice + '.png';
+
+        if( dice !== 1 ){
+            // add dice value to round score and display
+            roundScore += dice;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }
+        else{
+            changeCurrent();
+        }
     }
-    else{
-        changeCurrent();
-    }
+    
 })
 
 
 // Hold the dice functionalites
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
+<<<<<<< HEAD
     playerScore[activePlayer] += roundScore;
     document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
 
@@ -58,11 +56,29 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     }
     else{
         changeCurrent();
+=======
+    
+    if(gameStatus){ // to stop working after one player wins
+
+        playerScore[activePlayer] += roundScore;
+        document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
+        // when global score is above 100
+        if (playerScore[activePlayer] >= 100){
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('#name-' + activePlayer).textContent = "Winner";
+            gameStatus = false;
+        }
+        else{
+            changeCurrent();
+        }
+>>>>>>> 47ea2733f299a3f0662ab0f38f79fa7dac7c0501
     }
+    
 })
 
 
-function changeCurrent(){
+function changeCurrent(){ // change the turn 
     document.querySelector('#current-' + activePlayer).textContent = '0';
     roundScore = 0;
     activePlayer === 0 ? activePlayer += 1: activePlayer -= 1;
@@ -74,23 +90,23 @@ function changeCurrent(){
 // new game functionality 
 
 document.querySelector('.btn-new').addEventListener('click', function(){
-    roundScore = 0;
-    playerScore = [0,0];
-    document.querySelector('.dice').style.display = 'none';
-
-    for(var i = 0; i < 2; i++){
-        document.querySelector('#score-' + i).textContent = 0;
-    }
-    document.querySelector('#current-' + activePlayer).textContent = 0;
-
-    
+    init();
 })
 
+function init(){
+ gameStatus = true;
+ roundScore = 0;
+ playerScore = [0, 0];
+ activePlayer = 0; // this is necessary because always the player needs to be the player one in a new game
 
-
-
-
-
-
-
+// basics of the games
+ document.querySelector('.dice').style.display = 'none';
+ for(var i = 0; i < 2; i++){
+    document.querySelector('#score-' + i).textContent = '0';
+    document.querySelector('#current-' + i).textContent = '0';
+    document.querySelector('.player-' + i + '-panel').classList.remove('active');
+    document.querySelector('.player-' + i + '-panel').classList.remove('winner');
+ }
+    document.querySelector('.player-0-panel').classList.add('active');
+}
 
