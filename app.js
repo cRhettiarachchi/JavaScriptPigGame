@@ -44,19 +44,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 // Hold the dice functionalites
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-<<<<<<< HEAD
-    playerScore[activePlayer] += roundScore;
-    document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
 
-    // when global score is above 100
-    if (playerScore[activePlayer] >= 20){
-        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        document.querySelector('#name-' + activePlayer).textContent = "Winner";
-    }
-    else{
-        changeCurrent();
-=======
     
     if(gameStatus){ // to stop working after one player wins
 
@@ -72,7 +60,6 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         else{
             changeCurrent();
         }
->>>>>>> 47ea2733f299a3f0662ab0f38f79fa7dac7c0501
     }
     
 })
