@@ -12,52 +12,59 @@ GAME RULES:
 // declare the variable for the program
 var roundScore, playerScore, activePlayer, gameStatus;
 
- gameStatus = true;
-
     init();
  
 
 // Roll the dice functionalities 
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
-    // generate a random number 
-    var dice = Math.floor(Math.random() * 6) + 1;
 
-    // display the concurrent dice 
+    if(gameStatus){ // to stop working after one player wins
+        // generate a random number 
+        var dice = Math.floor(Math.random() * 6) + 1;
 
-    document.querySelector('.dice').style.display = "inline";
-    document.querySelector('.dice').src = "dice-" + dice + '.png';
+        // display the concurrent dice 
 
-    if( dice !== 1 ){
-        roundScore += dice;
-        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        document.querySelector('.dice').style.display = "inline";
+        document.querySelector('.dice').src = "dice-" + dice + '.png';
+
+        if( dice !== 1 ){
+            // add dice value to round score and display
+            roundScore += dice;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }
+        else{
+            changeCurrent();
+        }
     }
-    else{
-        changeCurrent();
-    }
+    
 })
 
 
 // Hold the dice functionalites
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-    playerScore[activePlayer] = roundScore;
-    document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
+    
+    if(gameStatus){ // to stop working after one player wins
 
-    // when global score is above 100
-    if (playerScore[activePlayer] >= 20){
-        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        document.querySelector('#name-' + activePlayer).textContent = "Winner";
-        gameStatus = false;
+        playerScore[activePlayer] += roundScore;
+        document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
+        // when global score is above 100
+        if (playerScore[activePlayer] >= 100){
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('#name-' + activePlayer).textContent = "Winner";
+            gameStatus = false;
+        }
+        else{
+            changeCurrent();
+        }
     }
-    else{
-        changeCurrent();
-    }
+    
 })
 
 
-function changeCurrent(){
+function changeCurrent(){ // change the turn 
     document.querySelector('#current-' + activePlayer).textContent = '0';
     roundScore = 0;
     activePlayer === 0 ? activePlayer += 1: activePlayer -= 1;
@@ -73,9 +80,10 @@ document.querySelector('.btn-new').addEventListener('click', function(){
 })
 
 function init(){
-    roundScore = 0;
-    playerScore = [0, 0];
-    activePlayer = 0; // this is necessary because always the player needs to be the player one
+ gameStatus = true;
+ roundScore = 0;
+ playerScore = [0, 0];
+ activePlayer = 0; // this is necessary because always the player needs to be the player one in a new game
 
 // basics of the games
  document.querySelector('.dice').style.display = 'none';
