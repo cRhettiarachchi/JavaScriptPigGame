@@ -47,7 +47,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 // Hold the dice functionalites
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-    playerScore[activePlayer] = roundScore;
+    playerScore[activePlayer] += roundScore;
     document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
 
     // when global score is above 100
