@@ -10,10 +10,11 @@ GAME RULES:
 */
 
 // declare the variable for the program
-var roundScore, playerScore, activePlayer, gameStatus;
+var roundScore, playerScore, activePlayer, gameStatus, selector;
 
     init();
  
+    selector = document.querySelector('.dice');
 
 // Roll the dice functionalities 
 
@@ -22,11 +23,10 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gameStatus){ // to stop working after one player wins
         // generate a random number 
         var dice = Math.floor(Math.random() * 6) + 1;
-
+        
         // display the concurrent dice 
-
-        document.querySelector('.dice').style.display = "inline";
-        document.querySelector('.dice').src = "dice-" + dice + '.png';
+        selector.style.display = "inline";
+        selector.src = "dice-" + dice + '.png';
 
         if( dice !== 1 ){
             // add dice value to round score and display
@@ -45,6 +45,8 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
 
+    selector = document.querySelector('.player-' + activePlayer + '-panel');
+
     
     if(gameStatus){ // to stop working after one player wins
 
@@ -52,8 +54,9 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
         // when global score is above 100
         if (playerScore[activePlayer] >= 100){
-            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-            document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+
+            selector.classList.remove('active');
+            selector.classList.add('winner');
             document.querySelector('#name-' + activePlayer).textContent = "Winner";
             gameStatus = false;
         }
@@ -87,6 +90,7 @@ function init(){
  activePlayer = 0; // this is necessary because always the player needs to be the player one in a new game
 
 // basics of the games
+    
  document.querySelector('.dice').style.display = 'none';
  for(var i = 0; i < 2; i++){
     document.querySelector('#score-' + i).textContent = '0';
