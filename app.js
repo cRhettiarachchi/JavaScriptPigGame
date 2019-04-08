@@ -7,10 +7,12 @@ GAME RULES:
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
 
+UPDATE -- If the player hits 2 sixes in a row then the player loses all of his score -- 
+
 */
 
 // declare the variable for the program
-var roundScore, playerScore, activePlayer, gameStatus, selector;
+var roundScore, playerScore, activePlayer, gameStatus, selector, pastScore;
 
     init();
  
@@ -23,7 +25,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gameStatus){ // to stop working after one player wins
         // generate a random number 
         var dice = Math.floor(Math.random() * 6) + 1;
-        
+        // var dice = 6;
         // display the concurrent dice 
         selector.style.display = "inline";
         selector.src = "dice-" + dice + '.png';
@@ -32,10 +34,21 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             // add dice value to round score and display
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            if (dice === 6 && pastScore === 6){
+                playerScore[activePlayer] = 0;
+                roundScore = 0;
+                pastScore = 0;
+                document.querySelector('#score-' + activePlayer).textContent = playerScore[activePlayer];
+                changeCurrent();
+            }
         }
         else{
             changeCurrent();
         }
+        
+        pastScore = dice;
+        console.log(dice);
+        console.log(pastScore);
     }
     
 })
@@ -45,7 +58,7 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
 
-    selector = document.querySelector('.player-' + activePlayer + '-panel');
+    panel = document.querySelector('.player-' + activePlayer + '-panel');
 
     
     if(gameStatus){ // to stop working after one player wins
@@ -55,13 +68,15 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         // when global score is above 100
         if (playerScore[activePlayer] >= 100){
 
-            selector.classList.remove('active');
-            selector.classList.add('winner');
+            panel.classList.remove('active');
+            panel.classList.add('winner');
             document.querySelector('#name-' + activePlayer).textContent = "Winner";
             gameStatus = false;
         }
         else{
             changeCurrent();
+            pastScore = 0;
+            
         }
     }
     
