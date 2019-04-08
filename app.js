@@ -16,17 +16,18 @@ var roundScore, playerScore, activePlayer, gameStatus, selector, pastScore;
 
     init();
  
-    selector = document.querySelector('.dice');
+    selector = document.querySelector('.dice'); // selector of image class
 
 // Roll the dice functionalities 
 
 document.querySelector('.btn-roll').addEventListener('click', function(){
 
     if(gameStatus){ // to stop working after one player wins
-        // generate a random number 
+       
+        // 1. generate a random number 
         var dice = Math.floor(Math.random() * 6) + 1;
-        // var dice = 6;
-        // display the concurrent dice 
+
+        // 2. display the dice image that matches the dice score
         selector.style.display = "inline";
         selector.src = "dice-" + dice + '.png';
 
@@ -34,7 +35,9 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
             // add dice value to round score and display
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            
             if (dice === 6 && pastScore === 6){
+                // makes everything 0 if a player hits two 6's in a row
                 playerScore[activePlayer] = 0;
                 roundScore = 0;
                 pastScore = 0;
